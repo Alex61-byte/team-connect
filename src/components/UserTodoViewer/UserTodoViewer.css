@@ -1,0 +1,15 @@
+.todo-card{
+    margin: 5px;
+  max-width:  350px;
+
+}
+
+.todo-card input{
+    width: 20px;
+    height: 20px;
+}
+
+.todolist-container{
+    display:flex;
+    flex-direction: row;
+}

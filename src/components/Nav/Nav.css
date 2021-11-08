@@ -1,0 +1,37 @@
+.img-container{
+    
+    width: 180px;
+    margin-left:200px;
+    
+
+}
+ul li{
+    list-style-type: none;
+}
+.navbar{
+    background-color: #1C0C5B;
+}
+ul{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 0;
+}
+li{
+    color: #FC5404;
+    font-weight: bolder;
+}
+li:hover{
+    cursor: pointer;
+}
+
+.nav{
+    display:flex;
+    flex-direction: row;
+    padding: 0;
+}
+
+nav{
+    padding: 0;
+}

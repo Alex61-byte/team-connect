@@ -1,0 +1,33 @@
+.view-todo{
+    margin-top: 10px;
+    padding: 5px;
+    border: 2px solid gray;
+    width: 320px;
+    margin-left: 10px;
+    text-align: center;
+}
+
+.check-box{
+    height: 20px;
+    width: 20px;
+    background-color:#EEEEEE;
+    margin-left: 10px;
+}
+.check-label{
+    font-size: 20px;
+    font-weight: bold;
+}
+.delete{
+    font-size: 23px;
+
+}
+.btn-del{
+    font-size: 22px;
+    font-weight: bold;
+}
+.todos-container{
+    display: flex;
+flex-direction: row;
+}
+
+

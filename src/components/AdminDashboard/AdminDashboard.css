@@ -1,0 +1,72 @@
+
+    .col-sm-2{
+        background-color: #1C0C5B;
+        background-size: cover;
+        text-align: center;
+        max-height: 900px;
+        padding: 5px;
+    }
+    .col-sm-2 .btn {
+        margin-top:60px;
+    }
+
+    .admin-card{
+        margin-top: 10px;
+    }
+
+    .todo-card-inputer{
+        margin-top: 10px;
+        text-align: center;
+        justify-content: center;
+        max-width: 350px;
+    }
+    .todo-card .btn{
+        margin-top: 10px;
+    }
+    .user-todo{
+        margin: 10px;
+    }
+
+    .col-sm-2 .btn{
+        width: 250px;
+        margin-top: 5px;
+        color: white;
+        font-weight: bold;
+        background: #FC5404;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+    .working-form option{
+        font-weight: bold;
+        text-align: center;
+
+    }
+    .working-form select{
+        font-weight: bold;
+        text-align: center;
+    }
+    .working-form label{
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .container-fluid{
+        margin:0px;
+        padding: 5px;
+    }    
+    .hours-icon{
+        font-size: 24px;
+    }
+    .expences-icon{
+        font-size: 28px;
+        color: black;
+    }
+    .todo-viewer-icon{
+        font-size: 23px;
+        color:black;
+    }
+    .project-icon{
+        font-size: 23px;
+        color: black;
+    }

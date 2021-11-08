@@ -1,0 +1,35 @@
+.inputer{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.work-imputer-form{
+    text-align: center;
+    margin: 10px;
+}
+
+.work-imputer-form label{
+    padding: 3px;
+
+}
+.work-imputer-form select{
+    margin: 10px;
+}
+
+
+.set-todo-card label{
+    color:white;
+}
+.set-todo-card input{
+    margin: 10px;
+    text-align: center;
+}
+.set-todo-card button{
+    margin: 10px;
+    font-size:20px;
+    font-weight: bold;
+}
+.set-todo-card select{
+    text-align: center;
+    margin: 10px;
+}

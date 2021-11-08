@@ -1,0 +1,19 @@
+.expence-inputer-card{
+    background-color: #1C0C5B;
+    margin-top: 10px;
+    text-align: center;
+    padding: 5px;
+}
+.expences-inputer-form{
+    color: white;
+}
+
+.expences-inputer-form label{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.expences-inputer-form button{
+    background-color: #FC5404;
+    
+}

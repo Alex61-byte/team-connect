@@ -1,0 +1,29 @@
+.setproject-form{
+    padding: 10px;
+    text-align: center;
+}
+
+.setproject-form label{
+    padding: 5px;
+    font-size: 18px;
+}
+
+.setproject-form input{
+    text-align: center;
+}
+.setproject-form select{
+    text-align: center;
+}
+.setproject-form button{
+    background-color:#FC5404 ;
+    color: white;
+    margin-top: 10px;
+
+}
+
+
+.setproject-card{
+    background-color: #1C0C5B;
+    color: #FC5404;
+    font-weight: bold;
+}

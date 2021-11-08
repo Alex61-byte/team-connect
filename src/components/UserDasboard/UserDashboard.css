@@ -1,0 +1,41 @@
+.col-sm-2 .btn-secondary{
+    color:white;
+    background-color: gray;
+    width: 200px;
+    margin-left: 20px;
+}
+
+.arrow-right{
+    font-size: 30px;
+    color: #FC5404;
+    font-weight: bold;
+}
+
+
+
+.close-btn{
+    color: #FC5404;
+    font-size: 30px;
+    font-weight: bold;
+    margin-top: 5px;
+    position: relative;
+    
+}
+
+.close-btn:hover{
+    
+    cursor: pointer;
+}
+
+.col-sm-2{
+    position: relative;
+    overflow: hidden;
+}
+
+.row{
+    margin: 0;
+}
+
+body{
+    margin: 0;
+}

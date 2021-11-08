@@ -1,0 +1,45 @@
+.renderer{
+    margin-top:10px;
+    padding-right: 0px;
+    padding-left: 0px;
+    
+    ;
+}
+td{
+    font-weight: bold;
+}
+thead{
+    background-color:black;
+    color:white;
+    text-align: center;
+}
+
+tbody{
+    text-align:center;
+    
+}
+
+.workingtime-requester{
+    margin-top: 20px;
+    background-color: #1C0C5B;
+    text-align: center;
+    
+}
+
+.workingtime-requester label{
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.workingtime-requester select{
+    padding: 5px;
+    text-align: center;
+    
+    
+}
+
+.workingtime-requester-form{
+    justify-content: center;
+    padding: 10px;
+}

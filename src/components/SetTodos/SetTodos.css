@@ -1,0 +1,30 @@
+.set-todo-card{
+    font-size:24px;
+    margin-top: 200px;
+    background-color:#1C0C5B;
+    text-align: center;
+}
+.set-todo-card .btn{
+  background-color:   #FC5404;
+  color: white;
+  font-weight: bold;
+    
+}
+
+.set-todo-card label{
+    color:white;
+}
+.set-todo-card input{
+    margin: 0px;
+    text-align: center;
+}
+.set-todo-card button{
+    margin: 10px;
+    font-size:20px;
+    font-weight: bold;
+}
+.set-todo-card select{
+    text-align: center;
+    margin: 0px;
+    padding: 5px;
+}
