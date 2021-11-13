@@ -1,24 +1,24 @@
 {
   "files": {
     "main.css": "/team-connect/static/css/main.bde30e02.chunk.css",
-    "main.js": "/team-connect/static/js/main.4af7db1f.chunk.js",
-    "main.js.map": "/team-connect/static/js/main.4af7db1f.chunk.js.map",
+    "main.js": "/team-connect/static/js/main.de0a57c5.chunk.js",
+    "main.js.map": "/team-connect/static/js/main.de0a57c5.chunk.js.map",
     "runtime-main.js": "/team-connect/static/js/runtime-main.402424fe.js",
     "runtime-main.js.map": "/team-connect/static/js/runtime-main.402424fe.js.map",
     "static/css/2.e8051837.chunk.css": "/team-connect/static/css/2.e8051837.chunk.css",
-    "static/js/2.1f566147.chunk.js": "/team-connect/static/js/2.1f566147.chunk.js",
-    "static/js/2.1f566147.chunk.js.map": "/team-connect/static/js/2.1f566147.chunk.js.map",
+    "static/js/2.7645ae9e.chunk.js": "/team-connect/static/js/2.7645ae9e.chunk.js",
+    "static/js/2.7645ae9e.chunk.js.map": "/team-connect/static/js/2.7645ae9e.chunk.js.map",
     "index.html": "/team-connect/index.html",
     "static/css/2.e8051837.chunk.css.map": "/team-connect/static/css/2.e8051837.chunk.css.map",
     "static/css/main.bde30e02.chunk.css.map": "/team-connect/static/css/main.bde30e02.chunk.css.map",
-    "static/js/2.1f566147.chunk.js.LICENSE.txt": "/team-connect/static/js/2.1f566147.chunk.js.LICENSE.txt",
+    "static/js/2.7645ae9e.chunk.js.LICENSE.txt": "/team-connect/static/js/2.7645ae9e.chunk.js.LICENSE.txt",
     "static/media/logo.0ec206f8.png": "/team-connect/static/media/logo.0ec206f8.png"
   },
   "entrypoints": [
     "static/js/runtime-main.402424fe.js",
     "static/css/2.e8051837.chunk.css",
-    "static/js/2.1f566147.chunk.js",
+    "static/js/2.7645ae9e.chunk.js",
     "static/css/main.bde30e02.chunk.css",
-    "static/js/main.4af7db1f.chunk.js"
+    "static/js/main.de0a57c5.chunk.js"
   ]
 }
