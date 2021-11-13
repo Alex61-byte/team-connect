@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/team-connect/static/css/main.bde30e02.chunk.css",
+    "main.js": "/team-connect/static/js/main.50b9adb5.chunk.js",
+    "main.js.map": "/team-connect/static/js/main.50b9adb5.chunk.js.map",
+    "runtime-main.js": "/team-connect/static/js/runtime-main.402424fe.js",
+    "runtime-main.js.map": "/team-connect/static/js/runtime-main.402424fe.js.map",
+    "static/css/2.e8051837.chunk.css": "/team-connect/static/css/2.e8051837.chunk.css",
+    "static/js/2.8a807eed.chunk.js": "/team-connect/static/js/2.8a807eed.chunk.js",
+    "static/js/2.8a807eed.chunk.js.map": "/team-connect/static/js/2.8a807eed.chunk.js.map",
+    "index.html": "/team-connect/index.html",
+    "static/css/2.e8051837.chunk.css.map": "/team-connect/static/css/2.e8051837.chunk.css.map",
+    "static/css/main.bde30e02.chunk.css.map": "/team-connect/static/css/main.bde30e02.chunk.css.map",
+    "static/js/2.8a807eed.chunk.js.LICENSE.txt": "/team-connect/static/js/2.8a807eed.chunk.js.LICENSE.txt",
+    "static/media/logo.0ec206f8.png": "/team-connect/static/media/logo.0ec206f8.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.402424fe.js",
+    "static/css/2.e8051837.chunk.css",
+    "static/js/2.8a807eed.chunk.js",
+    "static/css/main.bde30e02.chunk.css",
+    "static/js/main.50b9adb5.chunk.js"
+  ]
+}
