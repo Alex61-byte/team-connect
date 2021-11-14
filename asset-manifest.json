@@ -1,24 +1,23 @@
 {
   "files": {
-    "main.css": "/team-connect/static/css/main.bde30e02.chunk.css",
-    "main.js": "/team-connect/static/js/main.8172d52e.chunk.js",
-    "main.js.map": "/team-connect/static/js/main.8172d52e.chunk.js.map",
-    "runtime-main.js": "/team-connect/static/js/runtime-main.402424fe.js",
-    "runtime-main.js.map": "/team-connect/static/js/runtime-main.402424fe.js.map",
-    "static/css/2.e8051837.chunk.css": "/team-connect/static/css/2.e8051837.chunk.css",
-    "static/js/2.7645ae9e.chunk.js": "/team-connect/static/js/2.7645ae9e.chunk.js",
-    "static/js/2.7645ae9e.chunk.js.map": "/team-connect/static/js/2.7645ae9e.chunk.js.map",
-    "index.html": "/team-connect/index.html",
-    "static/css/2.e8051837.chunk.css.map": "/team-connect/static/css/2.e8051837.chunk.css.map",
-    "static/css/main.bde30e02.chunk.css.map": "/team-connect/static/css/main.bde30e02.chunk.css.map",
-    "static/js/2.7645ae9e.chunk.js.LICENSE.txt": "/team-connect/static/js/2.7645ae9e.chunk.js.LICENSE.txt",
-    "static/media/logo.0ec206f8.png": "/team-connect/static/media/logo.0ec206f8.png"
+    "main.css": "/team-efficiency/static/css/main.3e879573.chunk.css",
+    "main.js": "/team-efficiency/static/js/main.5511f34f.chunk.js",
+    "main.js.map": "/team-efficiency/static/js/main.5511f34f.chunk.js.map",
+    "runtime-main.js": "/team-efficiency/static/js/runtime-main.d90064ce.js",
+    "runtime-main.js.map": "/team-efficiency/static/js/runtime-main.d90064ce.js.map",
+    "static/css/2.e8051837.chunk.css": "/team-efficiency/static/css/2.e8051837.chunk.css",
+    "static/js/2.b505f1a1.chunk.js": "/team-efficiency/static/js/2.b505f1a1.chunk.js",
+    "static/js/2.b505f1a1.chunk.js.map": "/team-efficiency/static/js/2.b505f1a1.chunk.js.map",
+    "index.html": "/team-efficiency/index.html",
+    "static/css/2.e8051837.chunk.css.map": "/team-efficiency/static/css/2.e8051837.chunk.css.map",
+    "static/css/main.3e879573.chunk.css.map": "/team-efficiency/static/css/main.3e879573.chunk.css.map",
+    "static/js/2.b505f1a1.chunk.js.LICENSE.txt": "/team-efficiency/static/js/2.b505f1a1.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.402424fe.js",
+    "static/js/runtime-main.d90064ce.js",
     "static/css/2.e8051837.chunk.css",
-    "static/js/2.7645ae9e.chunk.js",
-    "static/css/main.bde30e02.chunk.css",
-    "static/js/main.8172d52e.chunk.js"
+    "static/js/2.b505f1a1.chunk.js",
+    "static/css/main.3e879573.chunk.css",
+    "static/js/main.5511f34f.chunk.js"
   ]
 }
