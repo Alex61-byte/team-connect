@@ -8,6 +8,8 @@ import { doc, collection, setDoc, getFirestore } from 'firebase/firestore'
 import { Link, useHistory } from "react-router-dom"
 import { initializeApp } from 'firebase/app';
 
+
+
 const firebaseApp = initializeApp({
 
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -23,72 +25,22 @@ const firebaseApp = initializeApp({
 
 
 const db = getFirestore()
-const storage = getStorage()
+
 
 export default function Signup() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
     const nameRef = useRef()
-    const[img,setImg]=useState("")
-    const [file, setFile] = useState(null)
+   
     const [error, setError] = useState("")
     const [loading, setLoading] = useState(false)
     const history = useHistory()
     const auth = getAuth();
+   
     
-    let userImg;
-    console.log(userImg)
-    console.log(file)
-    const handleChange = e => {
-        if (e.target.files[0]) {
-            setFile(e.target.files[0]);
-        }
-       
-        
-
-
     
-
-    }
-    function ulPhoto(){
-        const storage = getStorage();
-const storageRef = ref(storage, emailRef.current.value+"/"+file.name);
-
-const uploadTask = uploadBytesResumable(storageRef, file);
-
-// Register three observers:
-// 1. 'state_changed' observer, called any time the state changes
-// 2. Error observer, called on failure
-// 3. Completion observer, called on successful completion
-uploadTask.on('state_changed', 
-  (snapshot) => {
-    // Observe state change events such as progress, pause, and resume
-    // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
-    switch (snapshot.state) {
-      case 'paused':
-        console.log('Upload is paused');
-        break;
-      case 'running':
-        console.log('Upload is running');
-        break;
-    }
-  }, 
-  (error) => {
-    // Handle unsuccessful uploads
-  }, 
-  () => {
-    // Handle successful uploads on complete
-    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      console.log('File available at', downloadURL);
-      setImg(downloadURL)
-    });
-  }
-);
-    } 
+   
     async function handleSubmit(e) {
         e.preventDefault()
         let user;
@@ -111,7 +63,7 @@ uploadTask.on('state_changed',
                 .then((cred) => { return user = cred.user.email })
             await updateProfile(auth.currentUser, {
                 displayName: nameRef.current.value,
-                photoURL: img,
+                
 
             })
             await setDoc(doc(db, "users", user), {
@@ -127,7 +79,7 @@ uploadTask.on('state_changed',
         } catch {
             setError("Failed to create an account")
         }
-        if (userEmail === "alexandru.smarian@yahoo.com") {
+        if (userEmail === "alexandru.smarian@yahoo.com"||userEmail==="admin@team-connect.com") {
             history.push("/dashboardadmin");
         } else {
             history.push("/dashboarduser");
@@ -165,11 +117,7 @@ uploadTask.on('state_changed',
                             <Form.Label>Name</Form.Label>
                             <Form.Control type="Name" ref={nameRef} required />
                         </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Image</Form.Label>
-                            <input type="file" onChange={handleChange} accept=".png, .jpg, .jpeg"></input>
-                            <button onClick={ulPhoto} className="btn btn-info">Upload Photo</button>
-                        </Form.Group>
+                        
 
                         <Button disabled={loading} className="w-100" type="submit">
                             Sign Up

@@ -3,8 +3,8 @@
         background-color: #1C0C5B;
         background-size: cover;
         text-align: center;
-        max-height: 900px;
-        padding: 5px;
+        height: 92vh;
+       
     }
     .col-sm-2 .btn {
         margin-top:60px;
@@ -69,4 +69,12 @@
     .project-icon{
         font-size: 23px;
         color: black;
+    }
+
+    select:focus {
+       
+        outline-color: #FC5404;
+    }
+    .col-sm-2{
+        min-width: 250px;
     }

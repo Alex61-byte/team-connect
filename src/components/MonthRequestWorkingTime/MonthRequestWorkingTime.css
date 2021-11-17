@@ -5,3 +5,30 @@
 tfoot{
     margin-left: 200px;
 }
+.close{
+    float:right;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background-color:#FC5404 ;
+    border: none;
+    margin-right:10px ;
+    margin-top: 5px;
+}
+
+.table-container{
+    background-color:#855908d2;
+    margin: 0;
+    padding: 5px;
+}
+
+.col-sm-10{
+    padding: 0;
+}
+.table-striped{
+    border-radius: 5px;
+}

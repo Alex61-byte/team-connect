@@ -1,0 +1,28 @@
+.close{
+    float: right;
+}
+.user-profile{
+    display: inline;
+}
+
+h3{
+    margin-top: 7px;
+}
+
+.profile-card{
+    text-align: center;
+    background-color: #1C0C5B;
+    color: White;
+    justify-content: center;
+}
+
+.profile-card button{
+    background-color: #FC5404;
+}
+.profile-card label{
+    font-size: 20px;
+}
+.profile-card input{
+    margin-left: 5px;
+   width: 98%;
+}

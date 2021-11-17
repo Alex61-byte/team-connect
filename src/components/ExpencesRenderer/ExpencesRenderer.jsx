@@ -7,8 +7,8 @@ import './ExpencesRenderer.css'
 
 
 const db = getFirestore()
-var name = sessionStorage.getItem("username")
-var userName;
+let name;
+let userEmail;
 
 export default function ExpencesRenderer() {
 
@@ -31,18 +31,19 @@ export default function ExpencesRenderer() {
 
     const [selectedMonth, setSelectedMonth] = useState()
     const [expences, setExpences] = useState([])
-    const [showTable, setShowTable] = useState(false)
+    
     const [totalExpences, setTotalExpences] = useState()
 
 
     async function GetExpences(e) {
         e.preventDefault();
-
+        
         const auth = getAuth();
         const user = auth.currentUser;
 
         if (user) {
-            userName = user.email;
+            userEmail= user.email;
+            name=user.displayName;
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
             // ...
@@ -50,7 +51,7 @@ export default function ExpencesRenderer() {
             // No user is signed in.
         }
 
-        const querySnapshot = await getDocs(collection(db, "expences", selectedMonth, userName));
+        const querySnapshot = await getDocs(collection(db, "expences", selectedMonth, userEmail));
         let total = []
         let arr = [];
         let totalNumber = []
@@ -90,8 +91,8 @@ export default function ExpencesRenderer() {
             setExpences(arr)
             console.log(arr)
         }
-
-        setShowTable(true)
+        e.target.reset()
+        
 
         return arr;
 
@@ -112,11 +113,11 @@ export default function ExpencesRenderer() {
                     </Form>
                 </Card>
 
-                {showTable && <Table bordered >
+                <Table bordered >
 
                     <thead>
                         <tr>
-                            <th>{userName}</th>
+                            <th>{userEmail}</th>
                             <th>{selectedMonth}</th>
                         </tr>
                         <tr>
@@ -163,7 +164,7 @@ export default function ExpencesRenderer() {
                         </tr>
                     </thead>
 
-                </Table>}
+                </Table>
 
             </div>
 

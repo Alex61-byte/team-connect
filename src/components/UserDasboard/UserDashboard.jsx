@@ -13,6 +13,11 @@ import {AiOutlineCloseCircle}from 'react-icons/ai'
 import UserTodoViewer from '../UserTodoViewer/UserTodoViewer';
 import ExpencesInputer from '../ExpencesInputer/ExpencesInputer';
 import ExpencesRenderer from '../ExpencesRenderer/ExpencesRenderer';
+import UserProfile from '../UserProfile/UserProfile';
+import{FaBusinessTime, FaUserCog } from'react-icons/fa' 
+import {GrUserSettings} from'react-icons/gr'
+import { GiMoneyStack } from 'react-icons/gi';
+import { FcTodoList } from 'react-icons/fc';
 
 
 var userName = sessionStorage.getItem('user')
@@ -59,6 +64,7 @@ export default function UserDashboard() {
     const[showExpencesTable,setShowExpencesTable]=useState(false)
     const[showExpencesInputer,setShowExpencesInputer]=useState(false)
     const[showExpencesSorter,setShowExpencesSorter]=useState(false)
+    const[showProfile,setShowProfile]=useState(false)
 
     useEffect(()=>{
         getTodos()
@@ -69,6 +75,14 @@ export default function UserDashboard() {
         setShowHours(!showHours)
         setShowExpences(false)
         setShowLogo(false)
+        setShowTodos(false)
+        setShowImputer(false)
+        setShowTableWorkingHors(false)
+        setShowExpencesSorter(false)
+       
+        setShowExpences(false)
+        setShowProfile(false)
+        
         
     }
 
@@ -76,6 +90,11 @@ export default function UserDashboard() {
         setShowHours(false);
         setShowExpences(!showExpences)
         setShowLogo(false);
+        setShowTodos(false)
+        setShowImputer(false)
+        setShowTableWorkingHors(false)
+        setShowHours(false)
+        setShowProfile(false)
         
     }
 
@@ -102,6 +121,10 @@ export default function UserDashboard() {
         setShowHours(false)
         setShowExpences(false)
         setShowLogo(false)
+        setShowExpencesInputer(false)
+        setShowExpencesSorter(false)
+        setShowExpencesTable(false)
+        setShowProfile(false)
     }
 
     function handelHideExpences(){
@@ -110,14 +133,23 @@ export default function UserDashboard() {
         setShowExpences(false)
         setShowExpencesTable(false)
         setShowExpencesSorter(false)
-
+        
         
     }
 
-    function handelShowTableExpences(){
-        setShowExpencesTable(!showExpencesTable)
+    function handelProfile(){
+        setShowProfile(!showProfile)
+        setShowTodos(false)
+        setShowImputer(false)
+        setShowTableWorkingHors(false)
+        setShowHours(false)
+        setShowExpences(false)
+        setShowLogo(false)
+        setShowExpencesTable(false)
+        setShowExpencesSorter(false)
         setShowExpencesInputer(false)
-    }
+    }     
+   
     function handelShowExpencesInputer(){
         setShowExpencesInputer(!showExpencesInputer)
         setShowExpencesTable(false)
@@ -126,25 +158,31 @@ export default function UserDashboard() {
         setShowExpencesSorter(!showExpencesSorter)
         setShowExpencesInputer(false)
     }
+    
+    function closeProfile(){
+        setShowProfile(false)
+    }
 
     return (
         <div>
             <Row>
                 <Nav />
                 <Col sm={2}>
-                    <button className="btn btn-primary"  onClick={handelShowHours}>Working Hours</button>
+                    <button className="btn btn-primary" onClick={handelProfile}><FaUserCog style={{color:"white",fontSize:"20px"}}/> Update Profile</button>
+                    <button className="btn btn-primary"  onClick={handelShowHours}><FaBusinessTime className="hours-icon"/> Working Hours</button>
                     {showHours&&  <div><BsArrowReturnRight className="arrow-right" /><Button className="btn btn-secondary" onClick={handelShowTableWorkingHours}>View Working Hours</Button></div>}
                     {showHours&&  <div><BsArrowReturnRight className="arrow-right"/><Button className="btn btn-secondary" onClick={handelshowImputer}>Add working Hours</Button></div>}
                     {showHours&&  <div><BsArrowBarUp className="arrow-right"/> <AiOutlineCloseCircle onClick={handelHideWorkingTime} className="close-btn"/></div> }
                     <br />
-                    <button className="btn btn-primary" onClick={handelShowExpences}>Travel Expences</button>
+                    <button className="btn btn-primary" onClick={handelShowExpences}><GiMoneyStack style={{fontSize:"25px"}}/> Travel Expences</button>
                     {showExpences&&<div><BsArrowReturnRight className="arrow-right" /><Button className="btn btn-secondary" onClick={handelExpenceSorterShow}>View Expences</Button></div>}
                     {showExpences&&<div><BsArrowReturnRight className="arrow-right" /><Button className="btn btn-secondary" onClick={handelShowExpencesInputer}>Add expences</Button></div>}
                     {showExpences&&  <div><BsArrowBarUp className="arrow-right"/> <AiOutlineCloseCircle onClick={handelHideExpences} className="close-btn"/></div> }
-                    <Button onClick={handelViewTodos}>View Todos</Button>
-                    
+                    <Button onClick={handelViewTodos}><FcTodoList style={{fontSize:"25px"}}/> View Todos</Button>
+                    <div className="img-container"><img src={logo} alt="logo" width="100%" /></div>
                 </Col>
                 <Col sm={10}>
+                 {showProfile&& <UserProfile close={closeProfile}/>}   
                  {showTableWorkingHours && <WorkTimeRenderer  />}   
                  {showImputer &&  <WorkTimeImputer  />}
                 {showExpencesInputer&& <ExpencesInputer/>}

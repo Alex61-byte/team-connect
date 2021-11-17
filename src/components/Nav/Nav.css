@@ -1,7 +1,7 @@
 .img-container{
     
-    width: 180px;
-    margin-left:200px;
+    width: 200px;
+    margin-left:40px;
     
 
 }
@@ -10,6 +10,12 @@ ul li{
 }
 .navbar{
     background-color: #1C0C5B;
+}
+.navbar h1{
+    color: #FC5404;
+    margin-left: 50px;
+    font-size: 25px;
+    font-family: cursive;
 }
 ul{
     display: flex;
@@ -21,6 +27,7 @@ ul{
 li{
     color: #FC5404;
     font-weight: bolder;
+    margin-top: 7px;
 }
 li:hover{
     cursor: pointer;
@@ -34,4 +41,7 @@ li:hover{
 
 nav{
     padding: 0;
+}
+.avatar-container{
+    border-radius: 50%;
 }

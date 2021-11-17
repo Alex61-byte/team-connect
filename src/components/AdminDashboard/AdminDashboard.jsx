@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Row, Col,Form,Button} from 'react-bootstrap'
+import { Row, Col,Form,Button,Alert} from 'react-bootstrap'
 import WorkTimeImputer from '../WorkTimeImputer'
 import { collection, query, where, getDocs, getFirestore } from 'firebase/firestore'
 import MonthRequestWorkingTime from '../MonthRequestWorkingTime'
@@ -18,12 +18,34 @@ import{GiMoneyStack} from 'react-icons/gi'
 import {FcTodoList} from 'react-icons/fc'
 import {GrUserSettings} from 'react-icons/gr'
 import ExpencesInputer from '../ExpencesInputer/ExpencesInputer'
+import UserProfile from '../UserProfile/UserProfile'
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import ExpencesRenderer from '../ExpencesRenderer/ExpencesRenderer'
+import logo from '../../images/logo.png'
+import UserExpences from '../UserExpences/UserExpences'
 
 
-const email=sessionStorage.getItem("user")
+
+let name;
 async function getUsers() {
+  
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+   
+    name=user.displayName
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
     const db = getFirestore();
-    const q = query(collection(db, "users"), where("email", "!=", email));
+    const q = query(collection(db, "users"));
     let arr=[]
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
@@ -53,8 +75,9 @@ export default function AdminDashboard() {
     const [otherUsersWorkingHours,setOtherUsersWorkingHours]=useState(false)
     const [users,setUsers]=useState([]);
     console.log(users)
-    const [month,setMonth]=useState()
-    const [user,setUser]=useState()
+    const [month,setMonth]=useState(null)
+    const [user,setUser]=useState(null)
+    const[showProfile,setShowProfile]=useState(false)
    
     console.log(user)
     console.log(month)
@@ -68,13 +91,18 @@ export default function AdminDashboard() {
     console.log(userTodo)
     const [showSetProject,setShowSetProject]=useState(false)
     console.log(showSetProject)
-    const[showTableWorkingHours,setShowTableWorkingHors]=useState(false)
+    const[showTableWorkingHours,setShowTableWorkingHours]=useState(false)
     const[showImputer,setShowImputer]=useState(false)
     const[showExpencesTable,setShowExpencesTable]=useState(false)
     const[showExpencesInputer,setShowExpencesInputer]=useState(false)
     const[showExpencesSorter,setShowExpencesSorter]=useState(false)
-
-
+    const[othersExpences,setOthersExpences]=useState(false)
+    const[alert,setAlert]=useState(false)
+    const[alertText,setAlertText]=useState("")
+    const[userExpence,setUserEpence]=useState([])
+    const[total,setTotal]=useState(null)
+    const [todoAlert,setTodoAlert]=useState(false)
+    const[todoAlertText,setTodoAlertText]=useState("")
     useEffect(()=>{
         getUsers()
         .then((arr)=>{
@@ -88,7 +116,10 @@ export default function AdminDashboard() {
        e.preventDefault()
         const db = getFirestore();
 
-
+        if(month===null||user===null){
+            
+            return
+        }else{
         const querySnapshot = await getDocs(collection(db, "working-hours", month, user));
         console.log(querySnapshot)
         let arr = [];
@@ -119,19 +150,26 @@ export default function AdminDashboard() {
 
         })}else{
             setTime(0)
-            arr.push({ id:1,date:{date:month},project:{project:"no info"},time:{time:"no data available"}})
+            arr.push({ id:1,date:month,project:{project:"no info"},time:{time:"no data available"}})
             setDataHours(arr)
             console.log(arr)
         }
        
-        
-        
+    }
+     e.target.reset()   
         
 
 
     }
 
     async function GetTodoStatus(){
+
+        if(userTodo===null||userTodo===undefined){
+            setTodoAlert(true)
+            setTodoAlertText("User not Selected")
+            return
+        }else{
+
         const db=getFirestore()
         const querySnapshot = await getDocs(collection(db, "todo","team", userTodo));
         console.log(querySnapshot)
@@ -157,15 +195,71 @@ export default function AdminDashboard() {
     
             })}else{
                
-                arr.push({ id:1,date:{date:month},project:{project:"no info"},time:{time:"no data available"}})
+                arr.push(null)
                 setTodo(arr)
                 console.log(arr)
             }
            
             
             setTodo(arr)
+            setUserTodo(null)
+            setTodoAlert(false)
+        }  
+    }
+
+    async function GetOtherUsersEpences(e){
+        e.preventDefault()
+       
+        if(user===null||user===undefined){
+            setAlert(true)
+            setAlertText("user not selected")
+            return
+        }else if(month===null||month===undefined){
+            setAlert(true)
+            setAlertText("month not selected")
+            return
+        }else{
+            const db=getFirestore()
+            const querysnapshot= await getDocs(collection(db,"expences",month,user))
+            let arr=[]
             
-    
+            if (querysnapshot.empty!==true){
+            
+                querysnapshot.forEach((doc) => {
+                    // doc.data() is never undefined for query doc snapshots
+                    console.log(doc.id, " => ", doc.data());
+                    arr.push({ id: doc.id, date:doc.data().date,issuer:doc.data().docIssuer,docNr:doc.data().docNumber,type:doc.data().expenceType,month:doc.data().month,project:doc.data().project,value:doc.data().value})
+                    console.log(arr)
+                  
+                   
+                   
+                    
+                    
+                    
+                    
+                    console.log(arr)
+                    
+                    let sum = 0;
+
+                for (let i = 0; i < arr.length; i++) {
+                    sum += arr[i].value;
+                }
+                   setTotal(sum)
+                   setUserEpence(arr)
+        
+                })}else{
+                   
+                    arr.push(null)
+                    setUserEpence(arr)
+                    console.log(arr)
+                }
+            
+        }
+        
+        setAlert(false)
+        
+
+        e.target.reset()
     }
 
     function handelShowHours(){
@@ -173,6 +267,13 @@ export default function AdminDashboard() {
         setShowExpences(false)
         setOtherUsersWorkingHours(false)
         setShowSetTodos(false)
+        setShowSetProject(false)
+        setShowTodoViewer(false)
+        setShowExpencesInputer(false)
+        setShowExpencesTable(false)
+        setShowProfile(false)
+        setShowExpencesSorter(false)
+        setOthersExpences(false)
         
     }
 
@@ -183,6 +284,13 @@ export default function AdminDashboard() {
         setOtherUsersWorkingHours(false)
         setShowTodoViewer(false)
         setShowSetProject(false)
+        setShowTableWorkingHours(false)
+        setShowImputer(false)
+        setShowTableWorkingHours(false)
+        setShowImputer(false)
+        setShowProfile(false)
+        setOthersExpences(false)
+        
     }
 
     function handelOtherUsersWorkingHours(){
@@ -194,6 +302,12 @@ export default function AdminDashboard() {
         setShowTodoViewer(false)
         setShowExpencesInputer(false)
         setShowExpencesTable(false)
+        setShowProfile(false)
+        setShowExpencesSorter(false)
+        setShowTableWorkingHours(false)
+        setOthersExpences(false)
+        
+        
     }
     function handelShowSetTodos(){
         setShowSetTodos(!showSetTodos);
@@ -202,6 +316,12 @@ export default function AdminDashboard() {
         setShowExpences(false);
         setShowTodoViewer(false)
         setShowSetProject(false)
+        setShowProfile(false)
+        setShowImputer(false)
+        setShowTableWorkingHours(false)
+        setShowExpencesSorter(false)
+        setShowExpencesInputer(false)
+        setOthersExpences(false)
     }
 
     function handelShowTodoViewer(){
@@ -211,6 +331,12 @@ export default function AdminDashboard() {
         setShowHours(false);
         setShowExpences(false);
         setShowSetProject(false)
+        setShowProfile(false)
+        setShowTableWorkingHours(false)
+        setShowExpencesInputer(false)
+        setShowExpencesSorter(false)
+        setShowImputer(false)
+        setOthersExpences(false)
     }
    
     function handelShowSetProject(){
@@ -219,21 +345,27 @@ export default function AdminDashboard() {
         setShowSetTodos(false);
         setOtherUsersWorkingHours(false)
         setShowHours(false);
-        setShowExpences(false);
+        setShowImputer(false)
+        setShowProfile(false)
+        setShowTableWorkingHours(false)
+        setShowExpencesSorter(false)
+        setShowExpencesInputer(false)
+        setShowExpences(false)
+        setOthersExpences(false)
     }
     function handelShowTableWorkingHours(){
-        setShowTableWorkingHors(!showTableWorkingHours)
+        setShowTableWorkingHours(!showTableWorkingHours)
         setShowImputer(false)
     }
     
     function handelshowImputer(){
         setShowImputer(!showImputer)
-        setShowTableWorkingHors(false)
+        setShowTableWorkingHours(false)
     }
 
     function handelHideWorkingTime(){
         setShowImputer(false)
-        setShowTableWorkingHors(false)
+        setShowTableWorkingHours(false)
         setShowHours(false)
     }
 
@@ -241,7 +373,7 @@ export default function AdminDashboard() {
         setShowExpencesTable(false)
         setShowExpencesInputer(false)
         setShowExpences(false)
-
+        
         
     }
 
@@ -252,13 +384,66 @@ export default function AdminDashboard() {
     function handelShowExpencesInputer(){
         setShowExpencesInputer(!showExpencesInputer)
         setShowExpencesTable(false)
+        setShowImputer(false)
+        setShowTableWorkingHours(false)
+        setShowHours(false)
+        setShowProfile(false)
     }
 
     function handelExpenceSorterShow(){
         setShowExpencesSorter(!showExpencesSorter)
         setShowExpencesInputer(false)
+        setShowProfile(false)
+        setShowSetProject(false)
+        setShowTodoViewer(false)
+        setShowSetTodos(false);
+        setOtherUsersWorkingHours(false)
+        setShowHours(false);
+        setShowImputer(false)
+        setShowTableWorkingHours(false)
+        setShowHours(false)
+        
     }
 
+    function handelShowProfile(){
+        setShowProfile(!showProfile)
+        setShowSetProject(false)
+        setShowTodoViewer(false)
+        setShowSetTodos(false);
+        setOtherUsersWorkingHours(false)
+        setShowHours(false);
+        setShowExpences(false);
+        setShowImputer(false);
+        setShowTableWorkingHours(false)
+        setOthersExpences(false)
+        setShowExpencesSorter(false)
+       
+
+    }
+    function handelShowOthersExpences(){
+        setOthersExpences(!othersExpences)
+        setShowSetProject(false)
+        setShowTodoViewer(false)
+        setShowSetTodos(false);
+        setOtherUsersWorkingHours(false)
+        setShowHours(false);
+        setShowImputer(false)
+        setShowProfile(false)
+        setShowTableWorkingHours(false)
+        setShowExpencesSorter(false)
+        setShowExpencesInputer(false)
+        setShowExpences(false)
+    }
+
+    function handelCloseProfile(){
+        setShowProfile(false)
+    }
+    function handelCloseOtherUsersWorkingHours(){
+        setOtherUsersWorkingHours(false)
+    }
+    function handelCloseOthersExpences(){
+        setOthersExpences(false)
+    }
 
     return (
 
@@ -266,6 +451,7 @@ export default function AdminDashboard() {
             <Row >
                 <Nav />
                 <Col sm={2}>
+                    <button className="btn btn-primary" onClick={handelShowProfile}> Update Profile</button>
                     <button className="btn btn-primary"  onClick={handelShowHours}><FaBusinessTime className="hours-icon"/> My Working Hours</button>
                     {showHours&&  <div><BsArrowReturnRight className="arrow-right" /><Button className="btn btn-secondary" onClick={handelShowTableWorkingHours}>View Working Hours</Button></div>}
                     {showHours&&  <div><BsArrowReturnRight className="arrow-right"/><Button className="btn btn-secondary" onClick={handelshowImputer}>Add working Hours</Button></div>}
@@ -281,9 +467,9 @@ export default function AdminDashboard() {
                             <Form.Group>
                         <Form.Label>Select User</Form.Label>
                         <br />
-                        <Form.Select onChange={(e)=>setUser(e.target.value)} required>
+                        <Form.Select onChange={(e)=>setUser(e.target.value)} required >
                         
-                            <option value="none">User</option>
+                            <option value="">User</option>
                             {users.map((use)=>{
                                 return <option key={use.name} id={use.name} value={use.id} >{use.name}</option>
                                 
@@ -294,8 +480,8 @@ export default function AdminDashboard() {
                         <br />
                         <Form.Group>
                             <Form.Label>Select Month</Form.Label>
-                            <Form.Select onChange={(e)=>setMonth(e.target.value)} required>
-                            <option value="none">Month</option>
+                            <Form.Select onChange={(e)=>setMonth(e.target.value)}  required >
+                                <option value="">Month</option>
                             {months.map((mon)=>{
                                 return <option key={mon.id} value={mon.name}>{mon.name}</option>
                             })}
@@ -307,37 +493,71 @@ export default function AdminDashboard() {
                         </Form>
                     </Card.Body>
                     </Card>}
+                    <button className="btn btn-info" onClick={handelShowOthersExpences}><GiMoneyStack className="expences-icon"/> Other Users Expences</button>
+                    {othersExpences&& <Card className="admin-card">
+                        <Card.Body>
+                         {alert &&  <Alert variant="danger">{alertText}</Alert>}
+                        <Form onSubmit={(e)=>GetOtherUsersEpences(e)}>
+                            <Form.Group>
+                            <Form.Label>Select User</Form.Label>
+                            <Form.Select onChange={(e)=>setUser(e.target.value)}>
+                                <option value="">Select User</option>
+                                {users.map((user)=>{
+                                    return <option key={user.name} value={user.id}>{user.name}</option>
+                                })}
+                            </Form.Select>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Select Month</Form.Label>
+                                <Form.Select onChange={(e)=>setMonth(e.target.value)}>
+                                    <option value="">Month</option>
+                                    {months.map((month)=>{
+                                       return <option key={month.id} value={month.name}>{month.name}</option>
+                                    })}
+                                </Form.Select>
+                            </Form.Group>
+                            <Button type="submit">Get Data</Button>
+                        </Form>
+                        </Card.Body>
+                    </Card> }
+                    
                     <button className="btn btn-info" type="submit" onClick={handelShowSetTodos}><FcTodoList className="todo-viewer-icon"/>Set Todos</button>
                     <br />
                     <button className="btn btn-info" onClick={handelShowTodoViewer}><FcTodoList className="todo-viewer-icon"/>View Todo Status</button>
                     {showTodoViewer&& <Card className="todo-card-inputer">
                         <Card.Body>
-                            <label htmlFor="User" >Select User</label>
-                            <br />
-                            <select name="user" id="user" className="user-todo" onChange={(e)=>setUserTodo(e.target.value)}>
-                                <option value="none">Select User</option>
-                            {users.map((use)=>{
-                                return <option key={use.name} id={use.name} value={use.id} >{use.name}</option>
-                                
-                            })}
-                            </select>
-                            <br />
-                            <button className="btn btn-secondary" onClick={GetTodoStatus}>Get Todos</button>
+                            {todoAlert&&<Alert variant="danger">{todoAlertText}</Alert>}
+                            <Form onSubmit={GetTodoStatus}>
+                                <Form.Group>
+                                    <Form.Label>Select User</Form.Label>
+                                    <Form.Select  onChange={(e)=>setUserTodo(e.target.value)} >
+                                        <option value=""></option>
+                                        {users.map((user)=>{
+                                            return <option key={user.name} value={user.id}>{user.name}</option>
+                                        })}
+                                    </Form.Select>
+                                </Form.Group>
+                                   <Button type="submit">View Status</Button>     
+                            </Form>
+                           
+                            
                         </Card.Body>
                     </Card>
                     }
                     <Button onClick={handelShowSetProject}><GrUserSettings className="project-icon"/>Open Project</Button>
+                    <div className="img-container"><img src={logo} alt="logo" width="100%" /></div>
                 </Col>
                 <Col sm={10}>
                   {showTableWorkingHours &&  <WorkTimeRenderer/>}
                   {showImputer && <WorkTimeImputer/>}
-                  {otherUsersWorkingHours&& <MonthRequestWorkingTime data={dataHours} time={time} month={month}/> }
-                  
+                  {otherUsersWorkingHours&& <MonthRequestWorkingTime data={dataHours} time={time} month={month} close={handelCloseOtherUsersWorkingHours}/> }
+                  {showProfile&&<UserProfile close={handelCloseProfile}/>}
                   {showSetTodos&&<SetTodos users={users}/>}
                   {showTodoViewer&&<AdminTodoViewer data={todo} user={userTodo}/>}
                   {showSetProject&&<SetProject users={users}/>}
                   {showExpencesInputer&& <ExpencesInputer/> }
-                  {showExpencesTable&& <p>table</p> }
+                  {showExpencesSorter&&<ExpencesRenderer name={name}/>}
+                  {othersExpences&&<UserExpences data={userExpence} total={total} month={month} user={user} close={handelCloseOthersExpences}/>}  
                 </Col>
             </Row>
 

@@ -44,7 +44,9 @@ export default function UserTodoViewer({ todos,userName }) {
     }
 
     return (
-        <div className="todolist-container">
+
+       <div className="todolist-container">
+            
             {todoList.map((item) => {
                 return <Card key={item.id} className="todo-card">
                     <Card.Header> <h1>{item.title}</h1> </Card.Header>

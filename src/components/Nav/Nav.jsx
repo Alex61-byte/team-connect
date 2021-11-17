@@ -2,34 +2,35 @@ import React, { useState, useEffect } from 'react'
 import Logout from '../Logout'
 import './Nav.css'
 import { getAuth } from '@firebase/auth'
-import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import logo from '../../images/logo.png'
 import { FaUserCircle } from 'react-icons/fa'
 import { HiOutlineLogout } from 'react-icons/hi'
-import { getStorage,ref,getDownloadURL } from '@firebase/storage'
 
-var userName;
 
-var uid;
 
-var img;
+let uid;
+let img;
+let userName;
+
 
 
 async function GetData() {
     const auth = getAuth();
     const user = auth.currentUser
-    const db = getFirestore()
-
+    let arr=[]
+    console.log(arr)
     if (user) {
         console.log(user.email)
         console.log(user.providerData)
-        uid = user.email
-        img=user.photoURL
-        userName=user.displayName
+        uid = user.uid
+        img = user.photoURL
+        userName = user.displayName
         console.log(user.photoURL)
+        console.log(img)
         console.log(userName)
         console.log(uid);
-
+        arr.push(uid,img,userName)
+        
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         // ...
@@ -37,24 +38,7 @@ async function GetData() {
         // No user is signed in.
     }
 
-    const docRef = doc(db, "users/" + uid);
-    console.log(docRef);
-    const docSnap = await getDoc(docRef)
-
-
-    if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data().name);
-        sessionStorage.setItem('username', docSnap.data().name)
-        userName = docSnap.data().name;
-
-
-
-
-
-    } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-    }
+    return arr;
 
 }
 
@@ -62,31 +46,59 @@ async function GetData() {
 
 export default function Nav() {
     const [data, setData] = useState('');
-    
+    const [image,setImage]=useState()
+    console.log(image)
     useEffect(() => {
-        GetData().then(doc => setData(userName))
-    })
-   
+        GetData()
+            .then((arr) => {
+                setData(arr[2])
+                setImage(arr[1])
+            })
+    })    
+
+        if (img === undefined || img === null) {
+            return (
+                <nav className="navbar navbar-expand-sm " >
+                    <div className="container-fluid nav" >
+                    <h1>Things made easy</h1>
+
+                        <div className="d-flex">
+                            <ul>
 
 
-    return (
-        <nav className="navbar navbar-expand-sm " >
-            <div className="container-fluid nav" >
-                <div className="img-container"><img src={logo} alt="logo" width="90%" /></div>
+                                <li><FaUserCircle /> {data}</li>
+                                <li><HiOutlineLogout /><Logout /></li>
 
-                <form className="d-flex">
-                    <ul>
-                        <div style={{width:"50px"}}><img src={img} alt="user" width="100%"/></div>
-                        <li><FaUserCircle /> {data}</li>
-                        <li><HiOutlineLogout /><Logout /></li>
-                    </ul>
+                            </ul>
 
-                </form>
+                        </div>
 
-            </div>
-        </nav>
+                    </div>
+                </nav>
 
 
 
-    )
+            )
+        } else {
+            return (
+                <nav className="navbar navbar-expand-sm " >
+                    <div className="container-fluid nav" >
+                        <h1>Things made easy</h1>
+
+                        <div className="d-flex">
+                            <ul>
+                                <div style={{ width: "50px" }}><img  className="avatar-container" src={image} alt="user" width="100%" /></div>
+
+                                <li> {data}</li>
+                                <li><HiOutlineLogout /><Logout /></li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+                </nav>
+            )
+        }
 }
+

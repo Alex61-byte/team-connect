@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Card, Form, Button } from 'react-bootstrap'
+import { Card, Form, Button,Alert } from 'react-bootstrap'
 import { collection, query, addDoc, getDocs, getFirestore } from 'firebase/firestore'
 import { getAuth ,onAuthStateChanged} from '@firebase/auth'
 import './ExpencesInputer.css'
@@ -8,13 +8,14 @@ const db=getFirestore()
 
 var name=sessionStorage.getItem("username")
 var userName ;
+let userDescription;
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
     if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         userName = user.email;
-        // ...
+        userDescription=user.displayName
     } else {
         // User is signed out
         // ...
@@ -83,15 +84,17 @@ export default function ExpencesInputer() {
         { id: 12, month: "December" }
     ];
 
-    const[selectedMonth,setSelectedMonth]=useState()
-    const[selectedType,setSelectedType]=useState()
+    const[selectedMonth,setSelectedMonth]=useState(null)
+    const[selectedType,setSelectedType]=useState(null)
     const[selectedDate,setSelectedDate]=useState()
     
     const[docIssuer,setDocIssuer]=useState()
     const[docNumber,setDocNumber]=useState()
-    const[selectedProject,setSelectedProject]=useState()
+    const[selectedProject,setSelectedProject]=useState(null)
     const[projectList,setProjectList]=useState([])
     const [expenceValue,setExpenceValue]=useState()
+    const[error,setError]=useState("")
+    const[success,setSucces]=useState("")
 
     useEffect(()=>{
         getProjects()
@@ -103,14 +106,22 @@ export default function ExpencesInputer() {
 
        
 
-        const myExpences=collection(db,"expences",selectedMonth,userName)
-        const projectExpences=collection(db,"project-expences/management",selectedProject)
-        if(selectedProject==="No available Project"){
-            alert("N0 Project No Expences");
+      
+        if(selectedProject==="No available Project"||selectedProject===null){
+             setError("No Project No Expences")
+           setTimeout(()=> setError(""),1800);
             return
+        }else if(selectedMonth===null){
+            setError("No Month Selected")
+            setTimeout(()=>setError(""),1800)
+            return
+           
         }else{ 
+            const myExpences=collection(db,"expences",selectedMonth,userName)
+            const projectExpences=collection(db,"project-expences/management",selectedProject)
        
             try{
+
                 const docRef1=await addDoc(myExpences,{
                     date:selectedDate,
                     month:selectedMonth,
@@ -118,7 +129,8 @@ export default function ExpencesInputer() {
                     docIssuer:docIssuer,
                     docNumber:docNumber,
                     value:Number(expenceValue),
-                    project:selectedProject
+                    project:selectedProject,
+                    name:userDescription
 
 
                 })
@@ -140,15 +152,23 @@ export default function ExpencesInputer() {
                 
             }
 
-        }    
+        } 
+        setSelectedMonth(null)
+        setSelectedProject(null)
+           
+        setSucces("Data successfully saved")
+        setTimeout(()=>setSucces(""),1800)
         e.target.reset()
     }
-
+    
+   
     
     
     return (
         <div className="expence-inputer-container container-fluid">
-            <Card className="expence-inputer-card">
+            <Card className="expence-inputer-card" >
+                { error&&  <Alert variant="danger">{error}</Alert>}
+                { success&&<Alert variant="success">{success}</Alert>}
                 <Form onSubmit={(e)=>setExpences(e)} className="expences-inputer-form">
                     <Form.Group>
                         <Form.Label>Choose Month</Form.Label>

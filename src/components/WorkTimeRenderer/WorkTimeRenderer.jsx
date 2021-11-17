@@ -9,14 +9,15 @@ import './WorkTimeRenderer.css'
 
 
 
-var userName = sessionStorage.getItem('user')
+var userEmail = sessionStorage.getItem('user')
+let name;
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
     if (user) {
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
-        userName = user.email;
-        // ...
+        userEmail = user.email;
+        name=user.displayName
     } else {
         // User is signed out
         // ...
@@ -67,7 +68,7 @@ export default function WorkTimeRenderer() {
          const db = getFirestore();
  
  
-         const querySnapshot = await getDocs(collection(db, "working-hours", selectedMonth, userName));
+         const querySnapshot = await getDocs(collection(db, "working-hours", selectedMonth, userEmail));
          console.log(querySnapshot)
          let arr = [];
          let times = [];
@@ -77,7 +78,7 @@ export default function WorkTimeRenderer() {
          querySnapshot.forEach((doc) => {
              // doc.data() is never undefined for query doc snapshots
              console.log(doc.id, " => ", doc.data());
-             arr.push({ id: doc.id, time: doc.data().time, date:doc.data().date, project:doc.data().project })
+             arr.push({ id: doc.id, time: doc.data().time, date:doc.data().date, project:doc.data().project,emplyee:doc.data().name })
              console.log(arr)
            
              times.push(parseInt(Object.values(doc.data().time)))
@@ -97,11 +98,11 @@ export default function WorkTimeRenderer() {
  
          })}else{
              setTime(0)
-             arr.push({ id:1,date:{date:selectedMonth},project:{project:"no info"},time:{time:"no data available"}})
+             arr.push({ id:1,date:selectedMonth,project:{project:"no info"},time:{time:"no data available"}})
              setDataHours(arr)
              console.log(arr)
          }
-        
+         e.target.reset()
          setShowTable(true)
          
          
@@ -129,28 +130,30 @@ export default function WorkTimeRenderer() {
 
                 <thead>
                     <tr>
-                        <th>{userName}</th>
+                        <th>{userEmail}</th>
                         <th>{selectedMonth}</th>
                     </tr>
                     <tr>
                         <th>Date</th>
                         <th>Project</th>
                         <th>Working Time</th>
+                        <th>Employee</th>
 
                     </tr>
                 </thead>
                 <tbody >
                     {dataHours.map((item)=>{
                       return  <tr key={item.id}>
-                                <td>{item.date.date}</td>
+                                <td>{item.date}</td>
                                 <td>{item.project.project}</td>
                                 <td>{item.time.time}</td>
+                                <td>{item.emplyee}</td>                                
                         </tr>
                     })}
                 </tbody>
                 <thead>
                     <tr>
-                        <th>{userName}</th>
+                        <th>{name}</th>
                         <th>Total hours for {selectedMonth}</th>
                         <th>{time}</th>
                     </tr>

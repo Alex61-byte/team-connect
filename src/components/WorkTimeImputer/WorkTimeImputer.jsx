@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 import { getFirestore } from 'firebase/firestore'
 import { addDoc, collection, getDocs } from 'firebase/firestore'
-import { Button, Form, Card } from 'react-bootstrap'
+import { Button, Form, Card, Alert } from 'react-bootstrap'
 
 import './WorkTimeImputer.css'
 
@@ -18,8 +18,7 @@ const db = getFirestore()
 
 
 var userName;
-
-
+var userDescription;
 async function GetProjects() {
 
 
@@ -28,6 +27,7 @@ async function GetProjects() {
 
     if (user) {
         userName = user.email;
+        userDescription=user.displayName
         // User is signed in, see docs for a list of available properties
         // https://firebase.google.com/docs/reference/js/firebase.User
         // ...
@@ -107,6 +107,8 @@ export default function WorkTimeImputer() {
     const [date, setdate] = useState()
     console.log(date)
     const [time, setTime] = useState()
+    const [success,setSucces]=useState("")
+    const [error,setError]=useState("")
 
 
 
@@ -136,7 +138,8 @@ export default function WorkTimeImputer() {
         console.log(date)
 
         if(project==="No available Project"){
-            alert("NO Project No Hours")
+           setError("NO Project No Hours")
+           setTimeout(()=>setError(""),2000)
             return
         }else{
 
@@ -145,8 +148,9 @@ export default function WorkTimeImputer() {
             const docRef = await addDoc(workingTime, {
                 month: { actualMonth },
                 project: { project },
-                date: { date },
-                time: { time }
+                date: new Date(date).toLocaleString('en-RO').split(',')[0],
+                time: { time },
+                name:userDescription
             });
 
 
@@ -155,16 +159,19 @@ export default function WorkTimeImputer() {
             console.error("wrong aproach", date, project, time);
         }
     }
+    setSucces("Data Succesfully Saved")
+    setTimeout(()=>setSucces(""),1800)
     e.target.reset()
     }
     return (
         <div className="container-fluid inputer">
             <Card className="set-todo-card">
-                
+                {success&&<Alert variant="success">{success}</Alert>}
+                {error&&<Alert variant="danger">{error}</Alert>}
                 <Form onSubmit={(e) => handleWorkingTimeSubmit(e)} className="work-imputer-form">
                     <Form.Group>
-                        <Form.Label required >Month</Form.Label>
-                        <Form.Select onChange={(e) => setActualMonth(e.target.value)}>
+                        <Form.Label  >Month</Form.Label>
+                        <Form.Select onChange={(e) => setActualMonth(e.target.value)} required>
                             <option value="">Select Month</option>
                             {monthOptions.map((item) => {
                                 return <option key={item.id} value={item.month}>{item.month}</option>

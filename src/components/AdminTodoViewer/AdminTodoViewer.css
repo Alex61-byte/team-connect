@@ -29,5 +29,15 @@
     display: flex;
 flex-direction: row;
 }
+.todo-alert{
+    margin: 0 auto;
+    width: 100%;
+}
 
+.todo-empty{
+    margin: 0 auto;
+    margin-top: 50px;
+    width: 300px;
+    text-align: center;
+}
 
